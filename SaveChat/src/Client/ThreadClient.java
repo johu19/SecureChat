@@ -22,11 +22,16 @@ public class ThreadClient extends Thread {
 
 			try {
 				
-				DataInputStream in = new DataInputStream(client.getSocket().getInputStream());
 
 				DataOutputStream out = new DataOutputStream(client.getSocket().getOutputStream());
 				
 				out.writeUTF("Hello im a client");
+				
+
+				DataInputStream in = new DataInputStream(client.getSocket().getInputStream());
+				
+				String message = in.readUTF();
+				System.out.println(message);
 				
 				Thread.sleep(100);
 				
