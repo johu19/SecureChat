@@ -17,31 +17,65 @@ public class ThreadServer extends Thread {
 
 	@Override
 	public void run() {
-		int n=1;
+		int n = 1;
 
 		while (keepAlive) {
+			
+			if(n ==1 ) {
+				try {
+					Socket socket = server.getServerSocketInitial().accept();
+					DataInputStream in = new DataInputStream(socket.getInputStream());
+					String message = in.readUTF();
+					System.out.println(message + " se ha conectado(" + n + ")");
 
-			try {
-				
-				Socket socket = server.getServerSocket().accept();
-				DataInputStream in = new DataInputStream(socket.getInputStream());
-				String message = in.readUTF();
-				System.out.println("Client number: "+ n + " is connected");
-				n++;
-				DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-				out.writeUTF("Connection Accepted");
-				
-				
-				
-				
-				Thread.sleep(100);
+					DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+					out.writeUTF(server.getG() + "," + server.getP()+","+n);
 
-			} catch (Exception e) {
+					int clientPublicKey = Integer.parseInt(in.readUTF());
+					System.out.println("Llave publica del cliente " + n + ": " + clientPublicKey);
+					
+					server.setFirstClientPublicKey(clientPublicKey);
 
-				e.printStackTrace();
+					n++;
+					
+					server.initializeFirstSocket();
+
+					Thread.sleep(100);
+
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
+			}else if( n==2 ) {
+				try {
+					Socket socket = server.getServerSocketInitial().accept();
+					DataInputStream in = new DataInputStream(socket.getInputStream());
+					String message = in.readUTF();
+					System.out.println(message + " se ha conectado(" + n + ")");
+
+					DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+					out.writeUTF(server.getG() + "," + server.getP()+","+n);
+					out.writeUTF(server.getFirstClientPublicKey()+"");
+
+					int clientPublicKey = Integer.parseInt(in.readUTF());
+					System.out.println("Llave publica del cliente " + n + ": " + clientPublicKey);
+					
+					server.setSecondClientPublicKey(clientPublicKey);
+
+					n++;
+					
+					server.initializeSecondSocket();
+
+					Thread.sleep(100);
+
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
 			}
+
 			
-			
+
 		}
 
 	}

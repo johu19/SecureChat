@@ -24,22 +24,55 @@ public class ThreadClient extends Thread {
 				
 
 				DataOutputStream out = new DataOutputStream(client.getSocket().getOutputStream());
-				
-				out.writeUTF("Hello im a client");
+				out.writeUTF(client.getName());
 				
 
 				DataInputStream in = new DataInputStream(client.getSocket().getInputStream());
-				
 				String message = in.readUTF();
-				System.out.println(message);
+				System.out.println("g, p, numero cliente : "+message);
+
+				client.setG(Integer.parseInt(message.split(",")[0]));
+				client.setP(Integer.parseInt(message.split(",")[1]));
 				
+				int numClient = Integer.parseInt(message.split(",")[2]);
+				
+				client.setnClient(numClient);
+				
+				if(Integer.parseInt(message.split(",")[2])==2){
+					String otherPK = in.readUTF();
+					client.setOtherPK(Integer.parseInt(otherPK));
+					System.out.println("Other client PK: " + client.getOtherPK());
+				}
+				
+				
+				//(g^a mod p)
+				
+				double d=(Math.pow(client.getG(), client.getPrivateKey())%client.getP());
+				int pk = Math.toIntExact(Math.round(d));
+				
+				client.setPublicKey(pk);
+
+				System.out.println("publicKey : "+client.getPublicKey());
+				out.writeUTF(client.getPublicKey()+"");
+				
+				keepAlive = false;
+
 				Thread.sleep(100);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			
 
 		}
+		try {
+			client.startComSocket(client.getnClient());
+			client.startThreadCom();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
