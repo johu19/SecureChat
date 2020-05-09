@@ -47,7 +47,6 @@ public class ThreadCommunicationServer extends Thread {
 					// Servidor recibe mensaje del cliente 1
 					String newMessage = in.readUTF();
 					server.setLatestMessageForClient2(newMessage);
-//					server.setTrigger(true);
 
 					while (server.getLatestMessageForClient1() == null) {
 						Thread.sleep(50);
@@ -60,9 +59,6 @@ public class ThreadCommunicationServer extends Thread {
 					server.setLatestMessageForClient1(null);
 
 				} else if (clientNum == 2) {
-//					while (server.getLatestMessage() == null || !server.isTrigger()) {
-//						Thread.sleep(50);
-//					}
 					
 					while(server.getLatestMessageForClient2() == null) {
 						Thread.sleep(50);
@@ -71,12 +67,10 @@ public class ThreadCommunicationServer extends Thread {
 					// Servidor envia el mensaje del cliente 1 al cliente 2
 					System.out.println("Envia el siguiente mensaje a cliente 2: " + server.getLatestMessageForClient2());
 					out.writeUTF(server.getLatestMessageForClient2());
-//					server.setLatestMessage(null);
 
 					// Servidor recibe mensaje del cliente 2
 					String newMessage = in.readUTF();
 					
-//					server.setTrigger(false);
 					
 					server.setLatestMessageForClient1(newMessage);
 					
@@ -86,6 +80,10 @@ public class ThreadCommunicationServer extends Thread {
 				Thread.sleep(50);
 
 			}
+			
+			out.flush();
+			out.close();
+			in.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();

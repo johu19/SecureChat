@@ -50,16 +50,12 @@ public class ThreadCommunicationClient extends Thread {
 					System.out.print("Tu: ");
 					String message = keyboard.nextLine();
 					out.writeUTF(client.getName() + ": " + message);
-					System.out.println("Espera mensaje (1)");
 					String newMessage = in.readUTF();
-					System.out.println("Recibe mensaje (1)");
 					System.out.println(newMessage);
 
 				} else if (client.getnClient() == 2) {
 
-					System.out.println("Espera mensaje (2)");
 					String newMessage = in.readUTF();
-					System.out.println("Recibe mensaje (2)");
 					System.out.println(newMessage);
 					@SuppressWarnings("resource")
 					Scanner keyboard = new Scanner(System.in);
@@ -72,6 +68,10 @@ public class ThreadCommunicationClient extends Thread {
 				Thread.sleep(100);
 
 			}
+			
+			out.flush();
+			out.close();
+			in.close();
 
 		} catch (Exception e) {
 
