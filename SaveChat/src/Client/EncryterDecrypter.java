@@ -24,7 +24,7 @@ public class EncryterDecrypter {
 	
 
 	//encrypta una cadena con una clave recibida
-	public static String encriptar(String msgToEncrypt, long claveSecreta) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+	public static String DoEncrypt(String msgToEncrypt, long claveSecreta) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         SecretKeySpec secretKey = crearClave(claveSecreta+"");
         
         Cipher cipher = Cipher.getInstance(cipherAlgoritmType);        

@@ -56,7 +56,7 @@ public class ThreadCommunicationClient extends Thread {
 					String message = keyboard.nextLine();
 					
 					//encrypta el mensaje escrito por el cliente
-					String EncrypMessage=encryterDecrypter.encriptar(message, client.getCipherKey());
+					String EncrypMessage=encryterDecrypter.DoEncrypt(message, client.getCipherKey());
 					
 					
 					//Envia al servidor el mensaje
@@ -94,7 +94,7 @@ public class ThreadCommunicationClient extends Thread {
 					String message = keyboard.nextLine();
 					
 					//encrypta el mensaje escrito por el cliente
-					String EncrypMessage=encryterDecrypter.encriptar(message, client.getCipherKey());
+					String EncrypMessage=encryterDecrypter.DoEncrypt(message, client.getCipherKey());
 					
 					
 					//Envia al servidor el mensaje
