@@ -29,7 +29,6 @@ public class ThreadClient extends Thread {
 
 				DataInputStream in = new DataInputStream(client.getSocket().getInputStream());
 				String message = in.readUTF();
-				System.out.println("g, p, numero cliente : "+message);
 
 				client.setG(Integer.parseInt(message.split(",")[0]));
 				client.setP(Integer.parseInt(message.split(",")[1]));
@@ -38,21 +37,27 @@ public class ThreadClient extends Thread {
 				
 				client.setnClient(numClient);
 				
+				System.out.println("Número del cliente : "+client.getnClient());
+				System.out.println("G : "+client.getG());
+				System.out.println("P : "+client.getP());
+
+				
+				
 				if(Integer.parseInt(message.split(",")[2])==2){
 					String otherPK = in.readUTF();
-					client.setOtherPK(Integer.parseInt(otherPK));
-					System.out.println("Other client PK: " + client.getOtherPK());
+					client.setOtherPK(Long.parseLong(otherPK));
+					System.out.println("Llave publica del otro cliente: " + client.getOtherPK());
 				}
 				
 				
 				//(g^a mod p)
 				
 				double d=(Math.pow(client.getG(), client.getPrivateKey())%client.getP());
-				int pk = Math.toIntExact(Math.round(d));
+				long pk = (long) d;
 				
 				client.setPublicKey(pk);
 
-				System.out.println("publicKey : "+client.getPublicKey());
+				System.out.println("Llave publica : "+client.getPublicKey());
 				out.writeUTF(client.getPublicKey()+"");
 				
 				keepAlive = false;

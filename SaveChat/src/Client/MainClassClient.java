@@ -19,12 +19,14 @@ public class MainClassClient {
 	private ThreadCommunicationClient threadCom;
 	private String name;
 	private int nClient;
-	private int privateKey, publicKey, cipherKey, p,g, otherPK;
+	private long privateKey, publicKey, cipherKey, p,g, otherPK;
 	
 	
 	public MainClassClient() throws Exception{
 		
 		socket = new Socket(SERVER_IP,SERVER_PORT);
+		
+		otherPK = -1;
 		
 		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
@@ -34,11 +36,17 @@ public class MainClassClient {
         boolean cond = false;
         while(!cond) {
         	try {
-        		 System.out.print("Introduzca su llave privada (numero entero): ");
-            	this.privateKey = Integer.parseInt(keyboard.nextLine());
+        		System.out.print("Introduzca su llave privada (numero entero positivo menor 10): ");
+        		int key = Integer.parseInt(keyboard.nextLine());
+        		if(key>0 && key<10) {
+        			this.privateKey = key;
+        		}else {
+        			throw new Exception();
+        		}
+            	
             	cond=true;
     		} catch (Exception e) {
-    			System.out.println("Debe ser un numero entero!");
+    			System.out.println("Debe ser un numero entero positivo menor que 20!");
     		}
         }
         
@@ -47,6 +55,14 @@ public class MainClassClient {
 		thread.start();
 		
 	}
+	
+	//Generated Secret Key = k_a = y^a mod P	Generated Secret Key = k_b = x^b mod P
+	public void generateCipherKey() {
+		double d = (Math.pow(otherPK, privateKey)) % p;
+		cipherKey = (long) d;
+		System.out.println("Llave de cifrado de "+name+" : "+cipherKey);
+	}
+	
 	
 	public void startComSocket(int numClient) throws Exception {
 		if(numClient == 1) {
@@ -88,17 +104,56 @@ public class MainClassClient {
 		this.nClient = nClient;
 	}
 
-	public int getOtherPK() {
+	
+
+
+	public long getPrivateKey() {
+		return privateKey;
+	}
+
+	public void setPrivateKey(long privateKey) {
+		this.privateKey = privateKey;
+	}
+
+	public long getPublicKey() {
+		return publicKey;
+	}
+
+	public void setPublicKey(long publicKey) {
+		this.publicKey = publicKey;
+	}
+
+	public long getCipherKey() {
+		return cipherKey;
+	}
+
+	public void setCipherKey(long cipherKey) {
+		this.cipherKey = cipherKey;
+	}
+
+	public long getP() {
+		return p;
+	}
+
+	public void setP(long p) {
+		this.p = p;
+	}
+
+	public long getG() {
+		return g;
+	}
+
+	public void setG(long g) {
+		this.g = g;
+	}
+
+	public long getOtherPK() {
 		return otherPK;
 	}
 
-
-
-	public void setOtherPK(int otherPK) {
+	public void setOtherPK(long otherPK) {
 		this.otherPK = otherPK;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -108,45 +163,6 @@ public class MainClassClient {
 		this.name = name;
 	}
 
-	public int getPrivateKey() {
-		return privateKey;
-	}
-
-	public void setPrivateKey(int privateKey) {
-		this.privateKey = privateKey;
-	}
-
-	public int getPublicKey() {
-		return publicKey;
-	}
-
-	public void setPublicKey(int publicKey) {
-		this.publicKey = publicKey;
-	}
-
-	public int getCipherKey() {
-		return cipherKey;
-	}
-
-	public void setCipherKey(int cipherKey) {
-		this.cipherKey = cipherKey;
-	}
-
-	public int getP() {
-		return p;
-	}
-
-	public void setP(int p) {
-		this.p = p;
-	}
-
-	public int getG() {
-		return g;
-	}
-
-	public void setG(int g) {
-		this.g = g;
-	}
 
 	
 	

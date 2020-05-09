@@ -23,21 +23,32 @@ public class MainClassServer {
 	
 	private ThreadServer thread;
 	
-	private int firstClientPublicKey;
-	private int secondClientPublicKey;
+	private String latestMessage;
 	
-	private int p,g;
+	private boolean trigger;
+	
+	private long firstClientPublicKey;
+	private long secondClientPublicKey;
+	
+	private long p,g;
 	
 	public MainClassServer() throws IOException {
+//		latestMessage = new String();
+		trigger=false;
 		serverSocketInitial = new ServerSocket(PORT);
-		System.out.println("SERVER IS UP");
 		
+		System.out.println("SERVIDOR CORRIENDO");
+		
+		secondClientPublicKey = -1;
 		
 		boolean cond=false;
 		
 		while(!cond) {
-			p=(int) (Math.random() * 100) + 1;
-			cond = isPrime(p);
+			p=(long) (Math.random() * 30) + 1;
+			if(p!=2) {
+				cond = isPrime(p);
+			}
+			
 		}
 		
 		g= findPrimitive(p);
@@ -66,7 +77,7 @@ public class MainClassServer {
 	//////Metodos isPrime, power, findPrimeFactors y findPrimitive obtenidos de https://www.geeksforgeeks.org/primitive-root-of-a-prime-number-n-modulo-n/
 	
 	// Returns true if n is prime 
-    public boolean isPrime(int n)  
+    public boolean isPrime(long n)  
     { 
         // Corner cases 
         if (n <= 1) 
@@ -98,9 +109,9 @@ public class MainClassServer {
   
     /* Iterative Function to calculate (x^n)%p in 
     O(logy) */
-    public int power(int x, int y, int p) 
+    public long power(long x, long y, long p) 
     { 
-        int res = 1;     // Initialize result 
+        long res = 1;     // Initialize result 
   
         x = x % p; // Update x if it is more than or 
         // equal to p 
@@ -121,7 +132,7 @@ public class MainClassServer {
     } 
   
     // Utility function to store prime factors of a number 
-    public void findPrimefactors(HashSet<Integer> s, int n)  
+    public void findPrimefactors(HashSet<Integer> s, long n)  
     { 
         // Print the number of 2s that divide n 
         while (n % 2 == 0)  
@@ -146,12 +157,12 @@ public class MainClassServer {
         // n is a prime number greater than 2 
         if (n > 2)  
         { 
-            s.add(n); 
+            s.add((int)n); 
         } 
     } 
   
     // Function to find smallest primitive root of n 
-    public int findPrimitive(int n)  
+    public int findPrimitive(long n)  
     { 
         HashSet<Integer> s = new HashSet<Integer>(); 
   
@@ -165,7 +176,7 @@ public class MainClassServer {
         // Since n is a prime number, the value of Euler 
         // Totient function is n-1 as there are n-1 
         // relatively prime numbers. 
-        int phi = n - 1; 
+        long phi = n - 1; 
   
         // Find prime factors of phi and store in a set 
         findPrimefactors(s, phi); 
@@ -202,6 +213,14 @@ public class MainClassServer {
 	
 	
 	
+	public String getLatestMessage() {
+		return latestMessage;
+	}
+
+	public void setLatestMessage(String latestMessage) {
+		this.latestMessage = latestMessage;
+	}
+
 	public ThreadCommunicationServer getThreadCom1() {
 		return threadCom1;
 	}
@@ -242,21 +261,7 @@ public class MainClassServer {
 		this.serverSocket2 = serverSocket2;
 	}
 
-	public int getFirstClientPublicKey() {
-		return firstClientPublicKey;
-	}
-
-	public void setFirstClientPublicKey(int firstClientPublicKey) {
-		this.firstClientPublicKey = firstClientPublicKey;
-	}
-
-	public int getSecondClientPublicKey() {
-		return secondClientPublicKey;
-	}
-
-	public void setSecondClientPublicKey(int secondClientPublicKey) {
-		this.secondClientPublicKey = secondClientPublicKey;
-	}
+	
 
 
 	public ThreadServer getThread() {
@@ -279,28 +284,49 @@ public class MainClassServer {
 		}
 	}
 
+	public long getFirstClientPublicKey() {
+		return firstClientPublicKey;
+	}
 
+	public void setFirstClientPublicKey(long firstClientPublicKey) {
+		this.firstClientPublicKey = firstClientPublicKey;
+	}
 
-	public int getP() {
+	public long getSecondClientPublicKey() {
+		return secondClientPublicKey;
+	}
+
+	public void setSecondClientPublicKey(long secondClientPublicKey) {
+		this.secondClientPublicKey = secondClientPublicKey;
+	}
+
+	public long getP() {
 		return p;
 	}
 
-
-
-	public void setP(int p) {
+	public void setP(long p) {
 		this.p = p;
 	}
 
-
-
-	public int getG() {
+	public long getG() {
 		return g;
 	}
 
-
-
-	public void setG(int g) {
+	public void setG(long g) {
 		this.g = g;
 	}
+
+	public boolean isTrigger() {
+		return trigger;
+	}
+
+	public void setTrigger(boolean trigger) {
+		this.trigger = trigger;
+	}
+
+
+
+
+	
 
 }

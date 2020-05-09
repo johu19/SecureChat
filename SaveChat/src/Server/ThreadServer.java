@@ -31,7 +31,7 @@ public class ThreadServer extends Thread {
 					DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 					out.writeUTF(server.getG() + "," + server.getP()+","+n);
 
-					int clientPublicKey = Integer.parseInt(in.readUTF());
+					long clientPublicKey = Long.parseLong(in.readUTF());
 					System.out.println("Llave publica del cliente " + n + ": " + clientPublicKey);
 					
 					server.setFirstClientPublicKey(clientPublicKey);
@@ -57,7 +57,7 @@ public class ThreadServer extends Thread {
 					out.writeUTF(server.getG() + "," + server.getP()+","+n);
 					out.writeUTF(server.getFirstClientPublicKey()+"");
 
-					int clientPublicKey = Integer.parseInt(in.readUTF());
+					long clientPublicKey = Long.parseLong(in.readUTF());
 					System.out.println("Llave publica del cliente " + n + ": " + clientPublicKey);
 					
 					server.setSecondClientPublicKey(clientPublicKey);
@@ -72,6 +72,10 @@ public class ThreadServer extends Thread {
 
 					e.printStackTrace();
 				}
+			}else if (n>2) {
+				keepAlive = false;
+				
+				
 			}
 
 			
