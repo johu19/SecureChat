@@ -8,6 +8,7 @@ public class ThreadCommunicationClient extends Thread {
 
 	private MainClassClient client;
 	private boolean keepAlive;
+	private EncryterDecrypter encryterDecrypter;
 
 	public ThreadCommunicationClient(MainClassClient client) {
 		this.client = client;
@@ -54,12 +55,22 @@ public class ThreadCommunicationClient extends Thread {
 					//Obtiene el mensaje escrito por el cliente en la consola
 					String message = keyboard.nextLine();
 					
+					//encrypta el mensaje escrito por el cliente
+					String EncrypMessage=encryterDecrypter.encriptar(message, client.getCipherKey());
+					
+					
 					//Envia al servidor el mensaje
-					out.writeUTF(client.getName() + ": " + message);
+					out.writeUTF(client.getName() + ": " + EncrypMessage);
 					
 					//Recibe del servidor el mensaje que haya sido enviado por el otro cliente
 					String newMessage = in.readUTF();
-					System.out.println(newMessage);
+					
+					String[] messageEncrypt=newMessage.split(": ");
+					//desencripta el mensaje recibido por el cliente
+					String DecryptMessage= encryterDecrypter.doDecrypt(messageEncrypt[1], client.getCipherKey());
+					
+					System.out.println(messageEncrypt[0]+": "+DecryptMessage);
+					
 
 					
 				} else if (client.getnClient() == 2) {
@@ -68,7 +79,13 @@ public class ThreadCommunicationClient extends Thread {
 					
 					//Recibe del servidor el mensaje que haya sido enviado por el otro cliente
 					String newMessage = in.readUTF();
-					System.out.println(newMessage);
+					
+					String[] messageEncrypt=newMessage.split(": ");
+					//desencripta el mensaje recibido por el cliente
+					String DecryptMessage= encryterDecrypter.doDecrypt(messageEncrypt[1], client.getCipherKey());
+					
+					System.out.println(messageEncrypt[0]+": "+DecryptMessage);
+					
 					@SuppressWarnings("resource")
 					Scanner keyboard = new Scanner(System.in);
 					System.out.print("Tu: ");
@@ -76,8 +93,12 @@ public class ThreadCommunicationClient extends Thread {
 					//Obtiene el mensaje escrito por el cliente en la consola
 					String message = keyboard.nextLine();
 					
-					//Recibe del servidor el mensaje que haya sido enviado por el otro cliente
-					out.writeUTF(client.getName() + ": " + message);
+					//encrypta el mensaje escrito por el cliente
+					String EncrypMessage=encryterDecrypter.encriptar(message, client.getCipherKey());
+					
+					
+					//Envia al servidor el mensaje
+					out.writeUTF(client.getName() + ": " + EncrypMessage);
 
 				}
 

@@ -46,7 +46,7 @@ public class MainClassClient {
             	
             	cond=true;
     		} catch (Exception e) {
-    			System.out.println("Debe ser un numero entero positivo menor que 20!");
+    			System.out.println("Debe ser un numero entero positivo menor que 10!");
     		}
         }
         
