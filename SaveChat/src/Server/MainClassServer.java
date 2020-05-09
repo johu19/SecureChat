@@ -23,7 +23,7 @@ public class MainClassServer {
 	
 	private ThreadServer thread;
 	
-	private String latestMessage;
+	private String latestMessageForClient1, latestMessageForClient2;
 	
 	private boolean trigger;
 	
@@ -34,7 +34,7 @@ public class MainClassServer {
 	
 	public MainClassServer() throws IOException {
 //		latestMessage = new String();
-		trigger=false;
+//		trigger=false;
 		serverSocketInitial = new ServerSocket(PORT);
 		
 		System.out.println("SERVIDOR CORRIENDO");
@@ -213,12 +213,23 @@ public class MainClassServer {
 	
 	
 	
-	public String getLatestMessage() {
-		return latestMessage;
+
+    
+
+	public String getLatestMessageForClient1() {
+		return latestMessageForClient1;
 	}
 
-	public void setLatestMessage(String latestMessage) {
-		this.latestMessage = latestMessage;
+	public void setLatestMessageForClient1(String latestMessageForClient1) {
+		this.latestMessageForClient1 = latestMessageForClient1;
+	}
+
+	public String getLatestMessageForClient2() {
+		return latestMessageForClient2;
+	}
+
+	public void setLatestMessageForClient2(String latestMessageForClient2) {
+		this.latestMessageForClient2 = latestMessageForClient2;
 	}
 
 	public ThreadCommunicationServer getThreadCom1() {
