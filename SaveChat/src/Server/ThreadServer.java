@@ -70,7 +70,7 @@ public class ThreadServer extends Thread {
 
 				} catch (Exception e) {
 
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 			}else if (n>2) {
 				keepAlive = false;

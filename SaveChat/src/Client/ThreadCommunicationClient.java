@@ -57,6 +57,7 @@ public class ThreadCommunicationClient extends Thread {
 					
 					//encrypta el mensaje escrito por el cliente
 					String EncrypMessage=encryterDecrypter.DoEncrypt(message, client.getCipherKey());
+					System.out.println("Mensaje encriptado a enviar: "+ EncrypMessage);
 					
 					
 					//Envia al servidor el mensaje
@@ -64,6 +65,7 @@ public class ThreadCommunicationClient extends Thread {
 					
 					//Recibe del servidor el mensaje que haya sido enviado por el otro cliente
 					String newMessage = in.readUTF();
+					System.out.println("Mensaje encriptado recibido: "+ newMessage.split(":")[1]);
 					
 					String[] messageEncrypt=newMessage.split(": ");
 					//desencripta el mensaje recibido por el cliente
@@ -79,6 +81,7 @@ public class ThreadCommunicationClient extends Thread {
 					
 					//Recibe del servidor el mensaje que haya sido enviado por el otro cliente
 					String newMessage = in.readUTF();
+					System.out.println("Mensaje encriptado recibido: "+ newMessage.split(":")[1]);
 					
 					String[] messageEncrypt=newMessage.split(": ");
 					//desencripta el mensaje recibido por el cliente
@@ -95,6 +98,7 @@ public class ThreadCommunicationClient extends Thread {
 					
 					//encrypta el mensaje escrito por el cliente
 					String EncrypMessage=encryterDecrypter.DoEncrypt(message, client.getCipherKey());
+					System.out.println("Mensaje encriptado a enviar: "+ EncrypMessage);
 					
 					
 					//Envia al servidor el mensaje
@@ -112,7 +116,7 @@ public class ThreadCommunicationClient extends Thread {
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+//			e.printStackTrace();
 
 		}
 
